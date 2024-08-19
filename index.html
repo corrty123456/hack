@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Mode</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: #00FF00; /* Green text color */
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 1s, color 1s;
+        }
+        .terminal {
+            padding: 20px;
+            border: 2px solid #00FF00; /* Green border */
+            width: 80vw;
+            height: 80vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+            transition: opacity 1s;
+        }
+        .hacked {
+            background: black;
+            color: #FF0000; /* Red text color */
+        }
+        .hacked .terminal {
+            opacity: 0;
+        }
+        .message {
+            display: none;
+            font-size: 3rem;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FF0000; /* Red text color */
+        }
+        .show {
+            display: block;
+        }
+        @keyframes flash {
+            0% { background-color: black; }
+            50% { background-color: #FF0000; } /* Red flash color */
+            100% { background-color: black; }
+        }
+        .flash {
+            animation: flash 0.1s infinite;
+        }
+        @keyframes errorBlink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .error {
+            color: red;
+            animation: errorBlink 0.5s infinite;
+        }
+        .warning {
+            color: orange;
+            animation: errorBlink 0.7s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal" id="terminal"></div>
+    <div class="message" id="message">System Breached!</div>
+    <script>
+        const terminal = document.getElementById('terminal');
+        const message = document.getElementById('message');
+        const code = `
+# Confidential Code - Do Not Disclose
+
+import os
+import sys
+import time
+import random
+
+def initialize_system():
+    print("Starting system...")
+    time.sleep(1)
+    print("System started.")
+    time.sleep(1)
+
+def connect_to_network():
+    print("Connecting to network...")
+    time.sleep(2)
+    print("Network connected.")
+    time.sleep(1)
+
+def perform_security_check():
+    print("Performing security check...")
+    time.sleep(3)
+    print("Security check passed.")
+    time.sleep(1)
+
+def execute_exploit():
+    print("Executing exploit...")
+    time.sleep(4)
+    for i in range(5):
+        print(f"Exploit progress: {i * 20}%")
+        time.sleep(1)
+    print("Exploit complete.")
+    time.sleep(1)
+
+def retrieve_data():
+    print("Retrieving data...")
+    time.sleep(2)
+    print("Data retrieval complete.")
+    time.sleep(1)
+
+def decrypt_data():
+    print("Decrypting data...")
+    time.sleep(3)
+    print("Data decryption complete.")
+    time.sleep(1)
+
+def upload_data():
+    print("Uploading data...")
+    time.sleep(2)
+    print("Data upload successful.")
+    time.sleep(1)
+
+def cleanup():
+    print("Cleaning up system...")
+    time.sleep(2)
+    print("System cleanup complete.")
+    time.sleep(1)
+
+def log_activity(message):
+    # This function simulates logging activity
+    with open('activity.log', 'a') as log_file:
+        log_file.write(f"{time.ctime()}: {message}\\n")
+
+def get_random_integer(min_value, max_value):
+    # Simulates getting a random integer
+    return random.randint(min_value, max_value)
+
+def display_banner():
+    print("===================================")
+    print("       HACKER MODE ACTIVATED       ")
+    print("===================================")
+
+if __name__ == "__main__":
+    display_banner()
+    initialize_system()
+    connect_to_network()
+    perform_security_check()
+    execute_exploit()
+    retrieve_data()
+    decrypt_data()
+    upload_data()
+    cleanup()
+    log_activity("All operations completed.")
+    print("Operations finished.")
+
+# End of Code
+        `;
+
+        let index = 0;
+        const chunkSize = 7; // Number of characters to show per key press
+
+        function showNextChunk() {
+            if (index < code.length) {
+                const nextChunk = code.slice(index, index + chunkSize);
+                terminal.textContent += nextChunk;
+                index += chunkSize;
+
+                // Auto scroll to the bottom
+                terminal.scrollTop = terminal.scrollHeight;
+
+                if (index >= code.length) {
+                    document.removeEventListener('keydown', showNextChunk); // Stop when done
+                    // Trigger the hack effect
+                    setTimeout(() => {
+                        document.body.classList.add('hacked');
+                        message.classList.add('show');
+                        simulateHackAttack();
+                    }, 1000); // Delay before showing the hack effect
+                }
+            }
+        }
+
+        function simulateHackAttack() {
+            const attackTypes = [
+                showWarningMessage,
+                showErrorMessage,
+                triggerFlashEffect,
+                triggerRedScreen
+            ];
+            let attackCount = 0;
+
+            function nextAttack() {
+                if (attackCount < attackTypes.length) {
+                    attackTypes[attackCount]();
+                    attackCount++;
+                    setTimeout(nextAttack, 2000); // Delay between attacks
+                }
+            }
+            nextAttack();
+        }
+
+        function showWarningMessage() {
+            const warningMessage = document.createElement('div');
+            warningMessage.textContent = 'WARNING: SYSTEM COMPROMISED!';
+            warningMessage.className = 'warning';
+            document.body.appendChild(warningMessage);
+
+            setTimeout(() => {
+                warningMessage.remove();
+            }, 2000); // Display warning for 2 seconds
+        }
+
+        function showErrorMessage() {
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = 'ERROR: UNAUTHORIZED ACCESS!';
+            errorMessage.className = 'error';
+            document.body.appendChild(errorMessage);
+
+            setTimeout(() => {
+                errorMessage.remove();
+            }, 2000); // Display error for 2 seconds
+        }
+
+        function triggerFlashEffect() {
+            document.body.classList.add('flash');
+            setTimeout(() => {
+                document.body.classList.remove('flash');
+            }, 1500); // Flash effect for 1.5 seconds
+        }
+
+        function triggerRedScreen() {
+            document.body.style.backgroundColor = '#FF0000'; // Red screen
+            setTimeout(() => {
+                document.body.style.backgroundColor = 'black'; // Revert to black
+            }, 1500); // Red screen for 1.5 seconds
+        }
+
+        document.addEventListener('keydown', showNextChunk);
+    </script>
+</body>
+</html>
