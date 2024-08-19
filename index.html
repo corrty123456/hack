@@ -69,6 +69,16 @@
             color: orange;
             animation: errorBlink 0.7s infinite;
         }
+        /* Styles for mobile interface */
+        @media (max-width: 768px) {
+            .terminal {
+                width: 90vw;
+                height: 90vh;
+            }
+            .message {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -167,7 +177,7 @@ if __name__ == "__main__":
         `;
 
         let index = 0;
-        const chunkSize = 7; // Number of characters to show per key press
+        const chunkSize = window.innerWidth <= 768 ? 12 : 7; // 12 characters for mobile, 7 for desktop
 
         function showNextChunk() {
             if (index < code.length) {
@@ -179,7 +189,7 @@ if __name__ == "__main__":
                 terminal.scrollTop = terminal.scrollHeight;
 
                 if (index >= code.length) {
-                    document.removeEventListener('keydown', showNextChunk); // Stop when done
+                    document.removeEventListener('click', showNextChunk); // Stop when done
                     // Trigger the hack effect
                     setTimeout(() => {
                         document.body.classList.add('hacked');
@@ -245,7 +255,17 @@ if __name__ == "__main__":
             }, 1500); // Red screen for 1.5 seconds
         }
 
-        document.addEventListener('keydown', showNextChunk);
+        // Event listener for click on mobile and keydown on desktop
+        function setupEventListener() {
+            if (window.innerWidth <= 768) {
+                document.addEventListener('click', showNextChunk);
+            } else {
+                document.addEventListener('keydown', showNextChunk);
+            }
+        }
+
+        // Ensure event listener is set up after content is loaded
+        document.addEventListener('DOMContentLoaded', setupEventListener);
     </script>
 </body>
 </html>
